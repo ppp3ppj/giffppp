@@ -23,6 +23,9 @@ bun run dev
 
 # or start the server and open the app in a new browser tab
 bun run dev -- --open
+
+# run tauri
+bun run tauri dev
 ```
 
 ## Building
