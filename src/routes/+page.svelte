@@ -1,6 +1,15 @@
 <script lang="ts">
-	import { open } from "@tauri-apps/api/dialog";
+	import { message, open } from "@tauri-apps/api/dialog";
 	import { invoke } from "@tauri-apps/api/tauri";
+    import Modal  from './Modal.svelte';
+	import { onMount } from "svelte";
+
+    let showModal: boolean = false;
+
+    function openModal() {
+        showModal = true;
+        console.log("Result Modal is: ", showModal);
+    }
 
     let name: string = 'world';
     let inputVideo: File;
@@ -28,18 +37,11 @@
     }
 
     async function onFileSelectedRS() {
-        /*
-        if(inputVideo != undefined) {
-            const stringName: string = inputVideo.name;
-            console.log("pppAgent: ", stringName);
-            const agentTest: string = await invoke('upload_file', { path: inputVideo });
-            console.log("Result: ", agentTest);
-            //alert(`Hello, ${agentTest}!`);
-        }
-        */
         if(selectedFilePath != null) {
             const agentTest: string = await invoke('upload_file', { path: selectedFilePath });
             console.log("Result: ", agentTest);
+            //await message(agentTest);
+            openModal();
         }
     }
 
@@ -74,3 +76,5 @@
 <button on:click={dialogPickFile} class="btn btn-outline btn-accent">Pick File</button>
 
 <button on:click="{onFileSelectedRS}" class="btn btn-primary">Submit</button>
+
+<Modal bind:showModal />

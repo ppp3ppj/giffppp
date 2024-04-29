@@ -45,12 +45,6 @@ fn upload_file(path: PathBuf) -> Result<String, String> {
         None => return Err("Failed to get parent directory.".to_string()),
     };
 
-    // Create a directory in the same directory as the uploaded file
-    let new_dir = parent_dir.join("new_directory");
-    if let Err(err) = fs::create_dir(&new_dir) {
-        return Err(format!("Failed to create directory: {}", err));
-    }
-
     // Attempt to open the file
     let mut file = match File::open(&path) {
         Ok(file) => file,
@@ -64,7 +58,13 @@ fn upload_file(path: PathBuf) -> Result<String, String> {
     }
 
     // Perform MP4 to GIF conversion
-    let gif_path = parent_dir.join(format!("{}.gif", file_name));
+    let mut index = 1;
+    let mut gif_path = parent_dir.join(format!("{}.gif", file_name));
+    while gif_path.exists() {
+        gif_path = parent_dir.join(format!("{}_{}.gif", file_name, index));
+        index += 1;
+    }
+
     let mut convert_command = Command::new("ffmpeg")
         .args(&["-i", "-", "-vf", "scale=320:-1", "-r", "10", &gif_path.to_string_lossy()])
         .stdin(Stdio::piped())
@@ -89,3 +89,4 @@ fn upload_file(path: PathBuf) -> Result<String, String> {
 
     Ok(format!("File uploaded and converted successfully. GIF created in: {}", gif_path.display()))
 }
+
