@@ -1,5 +1,6 @@
 <script lang="ts">
  export let showModal: boolean = false; // boolean
+ export let msgDisplay: string;
 
  let dialog: HTMLDialogElement;
  $: if (showModal) dialog.showModal();
@@ -10,14 +11,12 @@
 	bind:this={dialog}
 	on:close={() => (showModal = false)}
 	on:click|self={() => dialog.close()}
+    class="modal"
 >
-	<!-- svelte-ignore a11y-no-static-element-interactions -->
-	<div on:click|stopPropagation>
-		<slot name="header" />
-		<hr />
-		<slot />
-		<hr />
-		<!-- svelte-ignore a11y-autofocus -->
-		<button autofocus on:click={() => dialog.close()}>close modal</button>
-	</div>
+  <div class="modal-box">
+    <h3 class="font-bold text-lg">Alert!</h3>
+    <p class="py-4">{ msgDisplay }</p>
+  </div>
+  <form method="dialog" class="modal-backdrop">
+    <button>close</button>
 </dialog>

@@ -14,6 +14,7 @@
     let name: string = 'world';
     let inputVideo: File;
     let selectedFilePath: string | string[] | null;
+    let msgAfterConvertedVideo: string;
 
     const getFileInput = async (fileInput: File) => async () => {
         if(fileInput != undefined) {
@@ -38,9 +39,7 @@
 
     async function onFileSelectedRS() {
         if(selectedFilePath != null) {
-            const agentTest: string = await invoke('upload_file', { path: selectedFilePath });
-            console.log("Result: ", agentTest);
-            //await message(agentTest);
+            msgAfterConvertedVideo = await invoke('upload_file', { path: selectedFilePath });
             openModal();
         }
     }
@@ -77,4 +76,4 @@
 
 <button on:click="{onFileSelectedRS}" class="btn btn-primary">Submit</button>
 
-<Modal bind:showModal />
+<Modal bind:showModal msgDisplay={ msgAfterConvertedVideo } />
