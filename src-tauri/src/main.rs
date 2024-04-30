@@ -24,7 +24,7 @@ fn main() {
 #[tauri::command]
 fn upload_file(path: PathBuf) -> Result<String, String> {
     // Log the name of the uploaded file
-    let file_name = match path.file_name() {
+    let file_name = match path.file_stem() {
         Some(name) => name.to_string_lossy().into_owned(),
         None => return Err("Failed to get file name.".to_string()),
     };
