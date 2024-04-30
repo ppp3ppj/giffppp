@@ -28,7 +28,6 @@ fn upload_file(path: PathBuf) -> Result<String, String> {
         Some(name) => name.to_string_lossy().into_owned(),
         None => return Err("Failed to get file name.".to_string()),
     };
-    println!("Uploaded file name: {}", file_name);
 
     // Check if the file has an MP4 extension
     if let Some(extension) = path.extension() {
