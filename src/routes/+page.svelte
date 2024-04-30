@@ -35,9 +35,13 @@
         }
     }
 </script>
-<h1>Welcome to giffppp</h1>
-<button on:click={dialogPickFile} class="btn btn-outline btn-accent">Pick File</button>
 
-<button on:click="{onFileSelectedRS}" class="btn btn-primary">Submit</button>
+<div class="flex h-screen">
+    <div class="m-auto">
+        <h1 class="text-xl font-bold">Welcome to giffppp</h1>
+        <button on:click={dialogPickFile} class="btn btn-outline btn-accent">Pick File</button>
+        <button on:click="{onFileSelectedRS}" class="btn btn-primary">Submit</button>
+    </div>
+</div>
 
 <Modal bind:showModal msgDisplay={ msgAfterConvertedVideo } />
